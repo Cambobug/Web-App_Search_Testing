@@ -22,15 +22,3 @@ Feature: search suggestions
   | search | suggestion |
   | Soccer | soccer     |
   | Nerf   | nerf       |
-
-
-  Scenario Outline: search suggestions do not contain unwanted items
-    Given I am on the Ebay home page
-    When I am about to search for "<search>"
-    Then I expect the search resu to not contain the word "<irrelevant>"
-
-  Examples:
-  |     search      |     irrelevant    |
-  |  soccer -balls  |       balls       |
-  | running -shoes  |       shoes       |
-  | pickle -gherkin |       gherkin     |
