@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
-public class ExampleSteps {
+public class searchStepDefinitions {
 
     private final WebDriver driver = new ChromeDriver();
 
@@ -28,7 +28,9 @@ public class ExampleSteps {
     public void thePageTitleShouldStartWith(String title) {
         new WebDriverWait(driver, Duration.ofSeconds(10L)).until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver d) {
-                System.out.println(d.getTitle());
+
+                //System.out.println(d.getTitle()); REMOVE THIS
+
                 return d.getTitle().toLowerCase().startsWith(title);
             }
         });

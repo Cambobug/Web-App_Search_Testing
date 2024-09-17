@@ -1,5 +1,5 @@
 # Created by Owner at 9/16/2024
-Feature: example
+Feature: searching
   checking a search result
 
   # scenarios will test simple search functionality
