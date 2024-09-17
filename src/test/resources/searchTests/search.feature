@@ -4,10 +4,10 @@ Feature: searching
 
   # scenarios will test simple search functionality
   Scenario Outline: Searching for different items
-    Given I am on the Ebay search page
+    Given I am on the Ebay home page
     When I search for "<search>"
     Then the page title should start with "<title>"
-    #Then I move back to the homepage
+    # I move back to the homepage
 
   Examples:
     |   search  |   title   |
@@ -17,13 +17,13 @@ Feature: searching
 
   # searching for something that does not exist should return 0 results
   Scenario: Searching for something that does not exist
-    Given I am on the Ebay search page
+    Given I am on the Ebay home page
     When I search for "POISDZhjfgvvPA;EROIKFN"
     Then the page should have no matches
 
   # using the '-' operator on eBay equates to a NOT (in this case anything BUT baseball)
   # this is explicitly warned against on the eBay searching guide located here: https://developer.ebay.com/api-docs/user-guides/static/finding-user-guide/finding-searching-by-keywords.html
   Scenario: Using invalid search terms
-    Given I am on the Ebay search page
+    Given I am on the Ebay home page
     When I search for "-baseball"
     Then the page should reject your search
