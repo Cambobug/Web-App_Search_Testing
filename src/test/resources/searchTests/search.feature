@@ -3,7 +3,7 @@ Feature: example
   checking a search result
 
   # scenarios will test simple search functionality
-  Scenario Outline: Looking for Nerf Toys
+  Scenario Outline: Searching for different items
     Given I am on the Ebay search page
     When I search for "<search>"
     Then the page title should start with "<title>"
