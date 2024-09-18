@@ -32,6 +32,7 @@ public class Homepage {
     }
 
     public void readySearch(String search) {
+        getSearchBar().click();
         getSearchBar().sendKeys(search);
     }
 

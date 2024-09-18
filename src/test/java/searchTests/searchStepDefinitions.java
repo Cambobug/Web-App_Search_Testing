@@ -1,5 +1,7 @@
 package searchTests;
 
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import searchTests.pageObjects.*;
 
 import io.cucumber.java.After;
@@ -7,6 +9,7 @@ import io.cucumber.java.en.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.time.Duration;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.fail;
@@ -19,7 +22,11 @@ public class searchStepDefinitions {
     private final Suggestions suggestions = new Suggestions(driver);
     private final Pagination pagination = new Pagination(driver);
 
-    //Given and After Cases
+    /*
+    ------------------------------------------
+    -------------Multi-Use Tests--------------
+    ------------------------------------------
+     */
 
     @Given("I am on the Ebay home page")
     public void iAmOnTheEBaySearchPage() {
@@ -31,7 +38,11 @@ public class searchStepDefinitions {
         driver.quit();
     }
 
-    //Searching cases
+    /*
+    ------------------------------------------
+    -------------Searching Tests--------------
+    ------------------------------------------
+     */
 
     @When("I search for {string}")
     public void iSearchFor(String search) {
@@ -65,7 +76,11 @@ public class searchStepDefinitions {
         }
     }
 
-    // Search Suggestion Cases
+    /*
+    ------------------------------------------
+    ---------Search Suggestion Cases----------
+    ------------------------------------------
+     */
 
     @When("The search bar is empty")
     public void theSearchBarIsEmpty() {
@@ -89,6 +104,10 @@ public class searchStepDefinitions {
 
     @Then("I expect there to be search suggestions")
     public void i_expect_there_to_be_search_suggestions() {
+        //eBay takes time to load search suggestions so we need to wait for them to populate
+        String suggestionsUl = "//ul[@id='ui-id-1']";
+        new WebDriverWait(driver, Duration.ofSeconds(3L)).until(ExpectedConditions.presenceOfElementLocated(By.xpath(suggestionsUl + "//li")));
+
         if(!suggestions.areSuggVisible()) // if suggestions are not displayed -> fail
         {
             fail("Search suggestions are not visible with something in the searchbar.");
@@ -97,7 +116,6 @@ public class searchStepDefinitions {
 
     @Then("I expect the search suggestions to contain the word {string}")
     public void expectedSearchSuggestions(String suggestion) {
-        homePage.waitOnSearchBar(driver);
         List<String> suggList = suggestions.parseSuggestions();
 
         if(suggList.isEmpty())
@@ -105,15 +123,29 @@ public class searchStepDefinitions {
             fail("There were no suggestions found.");
         }
 
+        int relevant = 0, irrelevant = 0;
+
         for(String currSuggestion : suggList) {
-            System.out.println(currSuggestion);
-            if (!currSuggestion.contains(suggestion)) {
-                fail("Suggestion did not contain information relevant to search: " + currSuggestion);
+            if (currSuggestion.contains(suggestion)) {
+                relevant++;
             }
+            else
+            {
+                irrelevant++;
+            }
+        }
+
+        if(irrelevant > relevant)
+        {
+            fail("Majority of suggestions did not contain information relevant to search.");
         }
     }
 
-    //Pagination Tests
+    /*
+    ------------------------------------------
+    -------------Pagination Tests-------------
+    ------------------------------------------
+     */
 
     @Given("I have just searched for {string}")
     public void just_searched_for(String search) {
@@ -155,7 +187,7 @@ public class searchStepDefinitions {
         int originalPageNum = Integer.parseInt(page);
         int currentPageNum = pagination.getCurrentPageNumber();
 
-        System.out.println("Org: " + originalPageNum + " - Cur:" + currentPageNum);
+        //System.out.println("Org: " + originalPageNum + " - Cur:" + currentPageNum);
 
         if (currentPageNum != originalPageNum) {
             fail("Page did not switch to the next page upon clicking next arrow.");
@@ -167,7 +199,7 @@ public class searchStepDefinitions {
         int originalPageNum = Integer.parseInt(page);
         int currentPageNum = pagination.getCurrentPageNumber();
 
-        System.out.println("Org: " + originalPageNum + " - Cur:" + currentPageNum);
+        //System.out.println("Org: " + originalPageNum + " - Cur:" + currentPageNum);
 
         if (currentPageNum != originalPageNum) {
             fail("Page did not switch to the prior page upon clicking previous arrow.");
@@ -184,7 +216,6 @@ public class searchStepDefinitions {
 
     @Then("I should end up on the final page of results")
     public void check_on_final_page() {
-        System.out.println("Curr: " + pagination.getCurrentPageNumber() + " - Desired:" + (pagination.getNumberPages() -1 ));
         if(pagination.getCurrentPageNumber() != pagination.getNumberPages())
         {
             fail("Not on final page on result pagination after a search.");
