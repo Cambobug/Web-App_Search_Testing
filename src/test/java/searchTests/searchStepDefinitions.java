@@ -81,7 +81,7 @@ public class searchStepDefinitions {
 
     @Then("I expect there to be no search suggestions")
     public void i_expect_there_to_be_no_search_suggestions() {
-        if(suggestions.areSuggVisible())
+        if(suggestions.areSuggVisible()) // if suggestions are displayed -> fail
         {
             fail("Search suggestions are visible with nothing in the searchbar.");
         }
@@ -89,7 +89,7 @@ public class searchStepDefinitions {
 
     @Then("I expect there to be search suggestions")
     public void i_expect_there_to_be_search_suggestions() {
-        if(!suggestions.areSuggVisible())
+        if(!suggestions.areSuggVisible()) // if suggestions are not displayed -> fail
         {
             fail("Search suggestions are not visible with something in the searchbar.");
         }
@@ -98,10 +98,15 @@ public class searchStepDefinitions {
     @Then("I expect the search suggestions to contain the word {string}")
     public void expectedSearchSuggestions(String suggestion) {
         homePage.waitOnSearchBar(driver);
-        homePage.readySearch(suggestion);
         List<String> suggList = suggestions.parseSuggestions();
 
+        if(suggList.isEmpty())
+        {
+            fail("There were no suggestions found.");
+        }
+
         for(String currSuggestion : suggList) {
+            System.out.println(currSuggestion);
             if (!currSuggestion.contains(suggestion)) {
                 fail("Suggestion did not contain information relevant to search: " + currSuggestion);
             }

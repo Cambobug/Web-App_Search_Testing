@@ -12,7 +12,6 @@ Feature: search suggestions
     When I am about to search for "Soccer"
     Then I expect there to be search suggestions
 
-
   Scenario Outline: search suggestions are relevant
     Given I am on the Ebay home page
     When I am about to search for "<search>"
