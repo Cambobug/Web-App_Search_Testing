@@ -11,27 +11,27 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class Suggestions {
     private final WebDriver driver;
-    private final String suggestionUlElement = "//div[@id='gAC']//ul";
-    private final String suggestionsUlElement = "//li/a";
+    private final String suggestionDiv = "//div[@id='gAC']";
+    private final String suggestionsUl = "//ul[@id='ui-id-1']";
 
     public Suggestions(WebDriver d) {
         driver = d;
     }
 
     private List<WebElement> getSuggestions() {
-        WebElement ul = driver.findElement(By.xpath(suggestionUlElement));
-        List<WebElement> lists = ul.findElements(By.tagName("a"));
-        /*
+        List<WebElement> liElements = null;
         try{
-            if(lists.isEmpty()) {
+            WebElement div = driver.findElement(By.xpath(suggestionDiv));
+            WebElement ul = div.findElement(By.xpath(suggestionsUl));
+            liElements = ul.findElements(By.tagName("li"));
+            if(liElements.isEmpty()) {
                 fail("No suggestions found");
             }
         }
         catch(Exception e){
             fail(e.getMessage());
         }
-        */
-        return lists;
+        return liElements;
     }
 
     public boolean areSuggVisible() {
@@ -49,14 +49,14 @@ public class Suggestions {
         List<WebElement> suggestionList = getSuggestions();
         System.out.println(suggestionList.size());
 
-        List<String> suggestions = new ArrayList<String>();
+        List<String> textSuggestions = new ArrayList<String>();
 
         for(WebElement suggestion : suggestionList) {
             System.out.println(suggestion.getAttribute("aria-label"));
-            suggestions.add(suggestion.getAttribute("aria-label"));
+            textSuggestions.add(suggestion.getAttribute("aria-label"));
         }
 
-        return suggestions;
+        return textSuggestions;
     }
 
 }

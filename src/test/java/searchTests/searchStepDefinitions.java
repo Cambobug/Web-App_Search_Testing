@@ -7,7 +7,6 @@ import io.cucumber.java.en.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.fail;
@@ -18,11 +17,12 @@ public class searchStepDefinitions {
     private final Homepage homePage = new Homepage(driver);
     private final SearchResults searchResults = new SearchResults(driver);
     private final Suggestions suggestions = new Suggestions(driver);
+    private final Pagination pagination = new Pagination(driver);
 
     //Given and After Cases
 
     @Given("I am on the Ebay home page")
-    public void iAmOnTheGoogleSearchPage() {
+    public void iAmOnTheEBaySearchPage() {
         driver.get("https://www.ebay.ca/");
     }
 
@@ -114,5 +114,81 @@ public class searchStepDefinitions {
     }
 
     //Pagination Tests
+
+    @Given("I have just searched for {string}")
+    public void just_searched_for(String search) {
+        iAmOnTheEBaySearchPage();
+        iSearchFor(search);
+    }
+
+    @Given("I have just searched for {string} on the second page of results")
+    public void searched_on_the_second_page_results(String search) {
+        just_searched_for(search);
+        pagination.clickPageNumber(2);
+    }
+
+    @When("I click the pagination forwards arrow")
+    public void click_pagination_forwards_arrow() {
+        pagination.clickNextArrow();
+    }
+
+    @When("I click the pagination backwards arrow")
+    public void click_pagination_backwards_arrow() {
+        pagination.clickPrevArrow();
+    }
+
+    @When("I click the final page number")
+    public void click_final_page_number() {
+        pagination.clickPageNumber(pagination.getNumberPages());
+    }
+
+    @Then("The page should have result pagination")
+    public void does_pagination_exist() {
+        if(pagination.getNumberPages() == -1)
+        {
+            fail("Search results do not have any pagination.");
+        }
+    }
+
+    @Then("The page should move forward to page {string}")
+    public void check_page_switch_next(String page) {
+        int originalPageNum = Integer.parseInt(page);
+        int currentPageNum = pagination.getCurrentPageNumber();
+
+        System.out.println("Org: " + originalPageNum + " - Cur:" + currentPageNum);
+
+        if (currentPageNum != originalPageNum) {
+            fail("Page did not switch to the next page upon clicking next arrow.");
+        }
+    }
+
+    @Then("The page should move back to page {string}")
+    public void check_page_switch_prior(String page) {
+        int originalPageNum = Integer.parseInt(page);
+        int currentPageNum = pagination.getCurrentPageNumber();
+
+        System.out.println("Org: " + originalPageNum + " - Cur:" + currentPageNum);
+
+        if (currentPageNum != originalPageNum) {
+            fail("Page did not switch to the prior page upon clicking previous arrow.");
+        }
+    }
+
+    @Then("I should be on the first page of result pagination")
+    public void check_on_first_page() {
+        if(pagination.getCurrentPageNumber() != 1)
+        {
+            fail("Not on first page on result pagination after a search.");
+        }
+    }
+
+    @Then("I should end up on the final page of results")
+    public void check_on_final_page() {
+        System.out.println("Curr: " + pagination.getCurrentPageNumber() + " - Desired:" + (pagination.getNumberPages() -1 ));
+        if(pagination.getCurrentPageNumber() != pagination.getNumberPages())
+        {
+            fail("Not on final page on result pagination after a search.");
+        }
+    }
 
 }
