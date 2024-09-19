@@ -2,12 +2,11 @@
 Feature: searching
   checking a search result
 
-  # scenarios will test simple search functionality
+  # scenario will test simple search functionality
   Scenario Outline: Searching for different items
     Given I am on the Ebay home page
     When I search for "<search>"
     Then the page title should start with "<title>"
-    # I move back to the homepage
 
   Examples:
     |   search  |   title   |
