@@ -21,6 +21,7 @@ public class Suggestions {
         driver = d;
     }
 
+    // retrieves the list of suggestions after waiting for it to update
     private WebElement getSuggestionsList() {
         new WebDriverWait(driver, Duration.ofSeconds(10L)).until(ExpectedConditions.presenceOfElementLocated(By.xpath(suggestionDiv + suggestionsUl)));
         WebElement ul = null;
@@ -34,6 +35,7 @@ public class Suggestions {
         return ul;
     }
 
+    //retrieves the individual suggestions out of the suggestion list
     private List<WebElement> getIndividualSuggestions(WebElement ul) {
         // gives eBay time to update suggestions
         new WebDriverWait(driver, Duration.ofSeconds(10L)).until(ExpectedConditions.presenceOfElementLocated(By.xpath(suggestionsUl + "//li")));
@@ -46,6 +48,7 @@ public class Suggestions {
         return liElements;
     }
 
+    //checks that suggestions are visible or not
     public boolean areSuggVisible() {
         WebElement suggestionList = getSuggestionsList();
 
@@ -66,6 +69,7 @@ public class Suggestions {
         return false;
     }
 
+    //returns a list of strings where each string is a search suggestion
     public List<String> parseSuggestions() {
         WebElement suggestionList = getSuggestionsList();
         List<WebElement> liElements = getIndividualSuggestions(suggestionList);

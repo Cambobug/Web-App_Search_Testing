@@ -18,29 +18,42 @@ public class Homepage {
         driver = d;
     }
 
+    //finds the searchbar using the search bars xPath
     private WebElement getSearchBar() {
        return driver.findElement(By.xpath("//input[@id='gh-ac']"));
     }
 
     public String getPageTitle() {
-        return driver.getTitle().toLowerCase();
+
+        String title = "";
+        try{
+            title = driver.getTitle().toLowerCase();
+        }
+        catch(NullPointerException e) {
+            fail("Failed to get page title.");
+        }
+        return title;
     }
 
+    //clears the search bar
     public void clearSearch()
     {
         getSearchBar().clear();
     }
 
+    //clicks the search bar and places a search term in it
     public void readySearch(String search) {
         getSearchBar().click();
         getSearchBar().sendKeys(search);
     }
 
+    //submits the search term in the search bar
     public void sendSearch(String search) {
         readySearch(search);
         getSearchBar().submit();
     }
 
+    //waits for the search bar to load so that it can be detected and interacted with
     public void waitOnSearchBar(WebDriver d){
         try{
             new WebDriverWait(driver, Duration.ofSeconds(5L)).until(ExpectedConditions.elementToBeClickable(getSearchBar()));

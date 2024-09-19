@@ -18,11 +18,11 @@ Test 3: This test scenario is meant to test a search that will result in an erro
 
 *Search Suggestion Tests*
 
-Test 1: This test is meant to determine whether search suggestions are visible when nothing has been typed in the search bar
+Test 1: This test is meant to determine whether search suggestions are visible when nothing has been typed in the search bar.
 
-Test 2: This test is meant to determine whether search suggestions are visible after something has been typed into the search bar
+Test 2: This test is meant to determine whether search suggestions are visible after something has been typed into the search bar.
 
-Test 3: This test is meant to determine whether search suggestions are relevant to the terms in the search bar
+Test 3: This test is meant to determine whether search suggestions are relevant to the terms in the search bar.
 
     Test 3.1: Searching for "Soccer" and looking at suggestions to confirm majority of suggestions have term "soccer" in them
 
@@ -30,13 +30,13 @@ Test 3: This test is meant to determine whether search suggestions are relevant 
 
 *Search Pagination Tests*
 
-Test 1: This test determines whether the pagination UI elements exist on a common search
+Test 1: This test determines whether the pagination UI elements exist on a common search.
 
-Test 2: This test determines whether the forward arrow UI element moves the user to the next page
+Test 2: This test determines whether the forward arrow UI element moves the user to the next page.
 
-Test 3: This test determines whether the backwards arrow UI element moves the user to the previous page
+Test 3: This test determines whether the backwards arrow UI element moves the user to the previous page.
 
-Test 4: This test confirms whether a search will place the user on the first page of the results pagination
+Test 4: This test confirms whether a search will place the user on the first page of the result's pagination.
 
-Test 5: This test confirms the ability to move to other pages by clicking that pages number, in this case the final furthest visible page
+Test 5: This test confirms the ability to move to other pages by clicking that pages number, in this case the final furthest visible page.
 

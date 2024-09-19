@@ -31,11 +31,13 @@ public class Pagination {
         return getPaginationDiv().findElement(By.xpath(paginationNextArrow));
     }
 
+    //gets the list of individual pages
     private List<WebElement> getPaginationNumList() {
         WebElement ol = getPaginationDiv().findElement(By.xpath(paginationNumList));
         List<WebElement> liElements =  ol.findElements(By.tagName("li"));
 
-        liElements.removeIf(liElement -> !liElement.isDisplayed()); // there is a hidden element in each list that is non-interactable
+        // there is a hidden element in each list that is non-interactable
+        liElements.removeIf(liElement -> !liElement.isDisplayed());
 
         return liElements;
     }
@@ -50,6 +52,7 @@ public class Pagination {
         getPaginationNextArrow().click();
     }
 
+    //returns the number of pagination pages
     public int getNumberPages() {
         if(getPaginationNumList().isEmpty())
         {
@@ -58,6 +61,7 @@ public class Pagination {
         return getPaginationNumList().size();
     }
 
+    //gets the current page number the user is on
     public int getCurrentPageNumber() {
         List<WebElement> list = getPaginationNumList();
         WebElement a;
@@ -80,6 +84,7 @@ public class Pagination {
         return -1;
     }
 
+    //clicks on a specific page in the search pagination
     public void clickPageNumber(int pageNumber)
     {
         List<WebElement> list = getPaginationNumList();

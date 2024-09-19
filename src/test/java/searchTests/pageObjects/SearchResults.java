@@ -16,6 +16,7 @@ public class SearchResults {
         driver = d;
     }
 
+
     public boolean verifySearchResults(String searchTitle, String actualTitle) {
         return actualTitle.startsWith(searchTitle);
     }
