@@ -55,7 +55,6 @@ public class Suggestions {
         try{
             //display is initially set to none when nothing has been types in search bar
             if(suggestionList.getAttribute("style").contains("display: none")) {
-                System.out.println("Found 'display: none'!");
                 return false; // suggestion list is not displayed
             }
             else {
